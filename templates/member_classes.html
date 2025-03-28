@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ member.name }}'s Classes</title>
+    <script>
+        window.onload = function() {
+            if (!sessionStorage.getItem('loggedOut')) {
+                sessionStorage.setItem('loggedOut', 'false');
+            }
+            if (sessionStorage.getItem('loggedOut') === 'true') {
+                alert('Your session has logged out. Please log in again.');
+                sessionStorage.removeItem('loggedOut');
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Classes for {{ member.name }}</h1>
+    {% if classes %}
+    <table>
+        <tr>
+            <th>Class Name</th>
+            <th>Class Time</th>
+        </tr>
+        {% for class in classes %}
+        <tr>
+            <td>{{ class.class_name }}</td>
+            <td>{{ class.class_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No classes registered for this member.</p>
+    {% endif %}
+    <br>
+    <a href="{{ url_for('view_members') }}">Back to Members List</a>
+    <br>
+    <a href="{{ url_for('register_class', member_id=member.id) }}">Register New Class for {{ member.name }}</a>
+    <br>
+    <a href="{{ url_for('logout') }}" onclick="sessionStorage.setItem('loggedOut', 'true');">Logout</a>
+</body>
+</html>
